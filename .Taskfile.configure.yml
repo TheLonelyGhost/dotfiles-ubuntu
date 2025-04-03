@@ -4,7 +4,8 @@ version: "3"
 tasks:
   xdg:
     cmds:
-      - mkdir -p ~/.config ~/.local/share ~/.local/state ~/.local/bin
+      - cmd: mkdir -p ~/.config ~/.local/share ~/.local/state ~/.local/bin
+        silent: true
     status:
       - test -d ~/.config
       - test -d ~/.local/share
@@ -13,13 +14,13 @@ tasks:
 
   starship:
     cmds:
-      - ln -s {{ .TASKFILE_DIR }}/config/starship.toml ~/.config/starship.toml
+      - cmd: ln -s {{ .TASKFILE_DIR }}/config/starship.toml ~/.config/starship.toml
     status:
       - test -e ~/.config/starship.toml
 
   neovim:
     cmds:
-      - ln -s {{ .TASKFILE_DIR }}/config/nvim ~/.config/nvim
+      - cmd: ln -s {{ .TASKFILE_DIR }}/config/nvim ~/.config/nvim
     defer:
       - task: neovim:mason
         silent: true
@@ -37,25 +38,26 @@ tasks:
 
   zsh:
     cmds:
-      - mkdir -p ~/.zsh/{configs,functions,completion}
-      - |
-        while read -r source; do
-          ln -vfs "{{ .TASKFILE_DIR }}/${source}" ~/.zsh/configs/"${source//.\/configs\/zsh\/config\//}"
-        done <(find ./configs/zsh/config -name '*.zsh' -type f)
-      - |
-        while read -r source; do
-          ln -vfs "{{ .TASKFILE_DIR }}/${source}" ~/.zsh/functions/"${source//.\/configs\/zsh\/functions\//}"
-        done <(find ./configs/zsh/functions -name '*' -type f)
-      - |
-        while read -r source; do
-          ln -vfs "{{ .TASKFILE_DIR }}/${source}" ~/.zsh/completion/"${source//.\/configs\/zsh\/completion\//}"
-        done <(find ./configs/zsh/completion -name '*' -type f)
-      - |
-        ln -vfs '{{ .TASKFILE_DIR }}/configs/zsh/zshrc' ~/.zshrc
-        touch ~/.zshrc.local
-      - |
-        ln -vfs '{{ .TASKFILE_DIR }}/configs/zsh/zshenv' ~/.zshenv
-        touch ~/.zshenv.local
+      - cmd: mkdir -p ~/.zsh/{configs,functions,completion}
+        silent: true
+      - cmd: |
+          while read -r source; do
+            ln -vfs "{{ .TASKFILE_DIR }}/${source}" ~/.zsh/configs/"${source//.\/configs\/zsh\/config\//}"
+          done < <(find ./configs/zsh/config -name '*.zsh' -type f)
+      - cmd: |
+          while read -r source; do
+            ln -vfs "{{ .TASKFILE_DIR }}/${source}" ~/.zsh/functions/"${source//.\/configs\/zsh\/functions\//}"
+          done < <(find ./configs/zsh/functions -name '*' -type f)
+      - cmd: |
+          while read -r source; do
+            ln -vfs "{{ .TASKFILE_DIR }}/${source}" ~/.zsh/completion/"${source//.\/configs\/zsh\/completion\//}"
+          done < <(find ./configs/zsh/completion -name '*' -type f)
+      - cmd: |
+          ln -vfs '{{ .TASKFILE_DIR }}/configs/zsh/zshrc' ~/.zshrc
+          touch ~/.zshrc.local
+      - cmd: |
+          ln -vfs '{{ .TASKFILE_DIR }}/configs/zsh/zshenv' ~/.zshenv
+          touch ~/.zshenv.local
     sources:
       - ./configs/zsh/**
     dir: "{{ .TASKFILE_DIR }}"
@@ -69,16 +71,18 @@ tasks:
 
   git:config:
     cmds:
-      - mkdir -p ~/.config/git
-      - ln -vfs '{{ .TASKFILE_DIR }}/configs/git/config' ~/.config/git/config
-      - touch ~/.config/git/config.local
+      - cmd: mkdir -p ~/.config/git
+        silent: true
+      - cmd: ln -vfs '{{ .TASKFILE_DIR }}/configs/git/config' ~/.config/git/config
+      - cmd: touch ~/.config/git/config.local
     status:
       - test -e ~/.config/git/config
       - test -e ~/.config/git/config.local
 
   git:ignore:
     cmds:
-      - mkdir -p ~/.config/git
-      - ln -vfs '{{ .TASKFILE_DIR }}/configs/git/ignore' ~/.config/git/ignore
+      - cmd: mkdir -p ~/.config/git
+        silent: true
+      - cmd: ln -vfs '{{ .TASKFILE_DIR }}/configs/git/ignore' ~/.config/git/ignore
     status:
       - test -e ~/.config/git/ignore
