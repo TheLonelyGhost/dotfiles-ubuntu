@@ -13,8 +13,6 @@ tasks:
       - test -e /nix
 
   zsh:
-    env:
-      PATH: "${HOME}/.local/bin:${HOME}/.nix-profile/bin:${PATH}"
     preconditions:
       - sh: "command -v nix &>/dev/null"
         msg: "requires `nix` to be installed"
@@ -42,8 +40,6 @@ tasks:
       - test -x ~/.nix-profile/bin/direnv
 
   curl:
-    env:
-      PATH: "${HOME}/.local/bin:${HOME}/.nix-profile/bin:${PATH}"
     preconditions:
       - sh: "command -v nix &>/dev/null"
         msg: "requires `nix` to be installed"
@@ -53,8 +49,6 @@ tasks:
       - test -x ~/.nix-profile/bin/curl
 
   unzip:
-    env:
-      PATH: "${HOME}/.local/bin:${HOME}/.nix-profile/bin:${PATH}"
     preconditions:
       - sh: "command -v nix &>/dev/null"
         msg: "requires `nix` to be installed"
@@ -102,8 +96,6 @@ tasks:
       - test -x ~/.local/bin/vault
 
   starship:
-    env:
-      PATH: "${HOME}/.local/bin:${HOME}/.nix-profile/bin:${PATH}"
     preconditions:
       - sh: "command -v nix &>/dev/null"
         msg: "requires `nix` to be installed"

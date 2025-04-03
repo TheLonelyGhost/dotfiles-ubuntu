@@ -7,6 +7,11 @@ vars:
   vault_version: 1.18.5
   change_shell: true
 
+env:
+  PATH:
+    sh: |
+      printf '%s/.local/bin:%s/.nix-profile/bin:%s' "${HOME}" "${HOME}" "${PATH}"
+
 run: once
 
 set:
