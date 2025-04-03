@@ -1,0 +1,48 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  terraform_version: 1.11.3
+  vault_version: 1.18.5
+  change_shell: true
+
+run: once
+
+set:
+  - errexit
+  - nounset
+  - pipefail
+
+includes:
+  deps:
+    taskfile: .Taskfile.dependencies.yml
+    internal: true
+  config:
+    taskfile: .Taskfile.configure.yml
+    internal: true
+
+tasks:
+  setup:
+    aliases:
+      - default
+    cmds:
+      - task: shell
+      - task: neovim
+      - task: deps:terraform
+      - task: deps:vault
+
+  neovim:
+    cmds:
+      - task: deps:neovim
+      - task: config:neovim
+    silent: true
+
+  shell:
+    cmds:
+      - task: config:xdg
+      - task: deps:nix
+      - task: deps:zsh
+      - task: deps:zplug
+      - task: config:zsh
+    # TODO: Set shell to be zsh

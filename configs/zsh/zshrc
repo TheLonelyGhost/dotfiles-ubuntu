@@ -1,0 +1,55 @@
+if [ -x "${HOME}/.nix-profile/bin/direnv" ]; then
+  eval "$("${HOME}/.nix-profile/bin/direnv" hook zsh)"
+else
+  printf 'ERROR: direnv is not installed\n' >&2
+fi
+
+if [ -x "${HOME}/.nix-profile/bin/starship" ]; then
+  eval "$("${HOME}/.nix-profile/bin/starship" init zsh)"
+else
+  printf 'ERROR: starship is not installed\n' >&2
+fi
+
+if [ -x "${HOME}/.nix-profile/bin/fzf" ]; then
+  eval "$("${HOME}/.nix-profile/bin/fzf" --zsh)"
+else
+  printf 'ERROR: fzf is not installed\n' >&2
+fi
+
+autoload -Uz compinit edit-command-line
+zle -N edit-command-line
+
+bindkey -e
+bindkey '^X^E' edit-command-line
+
+alias tf=terraform
+compdef g=git
+
+. "${HOME}/.zshrc.local"
+
+#================================#
+# === BEGIN RIG BOOTSTRAPPER === #
+
+function rig() {
+  __rig-clear
+  command rig "$@"
+  source "${RIG_ALIAS_FILE:-/tmp/rig-aliases}"
+}
+function __rig-clear() {
+  local alias_count
+  if [ -e "${RIG_ALIAS_FILE}.count" ]; then
+	alias_count="$(cat "${RIG_ALIAS_FILE}.count")"
+  fi
+  if [ "$alias_count" -eq 0 ]; then return 0; fi
+
+  for i in $(seq $alias_count); do
+    unalias "${RIG_ALIAS_PREFIX}${i}" &>/dev/null
+  done
+
+  echo 0 > "${RIG_ALIAS_FILE}.count"
+}
+: "${RIG_ALIAS_PREFIX:=e}"
+: "${RIG_ALIAS_FILE:=/tmp/rig-aliases}"
+
+# ==== END RIG BOOTSTRAPPER ==== #
+#================================#

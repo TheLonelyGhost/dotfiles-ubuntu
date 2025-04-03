@@ -1,0 +1,104 @@
+# https://taskfile.dev
+version: "3"
+
+tasks:
+  nix:
+    cmds:
+      - "curl -fsSL https://install.determinate.systems/nix | sh -s -- install --determinate"
+    interactive: true
+    preconditions:
+      - sh: "command -v curl &>/dev/null"
+        msg: "requires `curl` to be installed"
+    status:
+      - "! test -e /nix"
+
+  zsh:
+    preconditions:
+      - sh: "command -v nix &>/dev/null"
+        msg: "requires `nix` to be installed"
+    cmds:
+      - nix profile install nixpkgs#zsh
+    status:
+      - "! test -x ~/.nix-profile/bin/zsh"
+
+  zplug:
+    preconditions:
+      - sh: "command -v git &>/dev/null"
+        msg: "requires `git` to be installed"
+    cmds:
+      - git clone https://github.com/zplug/zplug.git ~/.zplug
+    status:
+      - "! test -e ~/.zplug/"
+
+  direnv:
+    deps:
+      - nix
+    # preconditions:
+    #   - sh: "command -v nix &>/dev/null"
+    #     msg: "requires `nix` to be installed"
+    cmds:
+      - nix profile install nixpkgs#direnv
+    status:
+      - "! test -x ~/.nix-profile/bin/direnv"
+
+  curl:
+    deps:
+      - nix
+    cmds:
+      - nix profile install nixpkgs#curl
+    status:
+      - "! test -x ~/.nix-profile/bin/curl"
+
+  unzip:
+    deps:
+      - nix
+    cmds:
+      - nix profile install nixpkgs#unzip
+    status:
+      - "! test -x ~/.nix-profile/bin/unzip"
+
+  terraform:
+    requires:
+      vars:
+        - terraform_version
+    deps:
+      - curl
+      - unzip
+    cmds:
+      - |
+        tempdir="$(mktemp -d)"
+        trap 'rm -rf "$tempdir"' EXIT
+        pushd "$tempdir" &>/dev/null
+        curl -SsLo ./terraform.zip 'https://releases.hashicorp.com/terraform/{{ .Vars.terraform_version }}/terraform_{{ .Vars.terraform_version }}_{{ OS }}_{{ ARCH }}.zip'
+        unzip ./terraform.zip
+        install -m0755 ./terraform ~/.local/bin
+        popd &>/dev/null
+    status:
+      - "! test -x ~/.local/bin/terraform"
+
+  vault:
+    requires:
+      vars:
+        - vault_version
+    deps:
+      - curl
+      - unzip
+    cmds:
+      - |
+        tempdir="$(mktemp -d)"
+        trap 'rm -rf "$tempdir"' EXIT
+        pushd "$tempdir" &>/dev/null
+        curl -SsLo ./vault.zip 'https://releases.hashicorp.com/vault/{{ .Vars.vault_version }}/vault_{{ .Vars.vault_version }}_{{ OS }}_{{ ARCH }}.zip'
+        unzip ./vault.zip
+        install -m0755 ./vault ~/.local/bin
+        popd &>/dev/null
+    status:
+      - "! test -x ~/.local/bin/vault"
+
+  starship:
+    deps:
+      - nix
+    cmds:
+      - nix profile install nixpkgs#starship
+    status:
+      - "! test -x ~/.nix-profile/bin/starship"

@@ -1,0 +1,9 @@
+export EDITOR='nvim'
+export VISUAL="${EDITOR}"
+export RIG_EDITOR='nvim'
+
+PATH="${HOME}/.local/bin:${PATH}"
+
+. "${HOME}/.zshenv.local"
+
+export PATH

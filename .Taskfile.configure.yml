@@ -1,0 +1,64 @@
+# https://taskfile.dev
+version: "3"
+
+tasks:
+  xdg:
+    cmds:
+      - mkdir -p ~/.config ~/.local/share ~/.local/state ~/.local/bin
+    silent: true
+    status:
+      - test -d ~/.config
+      - test -d ~/.local/share
+      - test -d ~/.local/state
+      - test -d ~/.local/bin
+
+  starship:
+    cmds:
+      - ln -s {{ .TASKFILE_DIR }}/config/starship.toml ~/.config/starship.toml
+    status:
+      - test -e ~/.config/starship.toml
+
+  neovim:
+    cmds:
+      - ln -s {{ .TASKFILE_DIR }}/config/nvim ~/.config/nvim
+    defer:
+      - task: neovim:mason
+        silent: true
+    status:
+      - test -e ~/.config/nvim
+
+  neovim:mason:
+    preconditions:
+      - sh: command -v nvim
+        msg: "requires `nvim` to be installed"
+    cmds:
+      # TODO: actually call `:Mason`
+      - "echo 'Call `:Mason` in neovim to complete installation'"
+    interactive: true
+
+  zsh:
+    cmds:
+      - mkdir -p ~/.zsh/{configs,functions,completion}
+      - |
+        while read -r source; do
+          ln -vfs "{{ .TASKFILE_DIR }}/${source}" ~/.zsh/configs/"${source//.\/config\/zsh\/configs\//}"
+        done <(find ./config/zsh/configs -name '*.zsh' -type f)
+      - |
+        while read -r source; do
+          ln -vfs "{{ .TASKFILE_DIR }}/${source}" ~/.zsh/functions/"${source//.\/config\/zsh\/functions\//}"
+        done <(find ./config/zsh/functions -name '*' -type f)
+      - |
+        while read -r source; do
+          ln -vfs "{{ .TASKFILE_DIR }}/${source}" ~/.zsh/completion/"${source//.\/config\/zsh\/completion\//}"
+        done <(find ./config/zsh/completion -name '*' -type f)
+      - |
+        ln -vfs '{{ .TASKFILE_DIR }}/config/zsh/zshrc' ~/.zshrc
+        touch ~/.zshrc.local
+      - |
+        ln -vfs '{{ .TASKFILE_DIR }}/config/zsh/zshenv' ~/.zshenv
+        touch ~/.zshenv.local
+    sources:
+      - ./config/zsh/**
+    dir: "{{ .TASKFILE_DIR }}"
+    method: checksum
+    run: when_changed
