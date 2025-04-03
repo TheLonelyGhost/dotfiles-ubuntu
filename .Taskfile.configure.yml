@@ -23,13 +23,12 @@ tasks:
       - cmd: ln -s {{ .TASKFILE_DIR }}/config/nvim ~/.config/nvim
     defer:
       - task: neovim:mason
-        silent: true
     status:
       - test -e ~/.config/nvim
 
   neovim:mason:
     preconditions:
-      - sh: command -v nvim
+      - sh: test -x ~/.local/bin/nvim
         msg: "requires `nvim` to be installed"
     cmds:
       # TODO: actually call `:Mason`

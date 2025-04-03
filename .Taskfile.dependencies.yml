@@ -110,6 +110,44 @@ tasks:
     status:
       - test -x ~/.local/bin/vault
 
+  neovim:
+    deps:
+      - nix:shim
+    cmds:
+      - ~/.local/bin/nix profile install nixpkgs#neovim
+    defer:
+      - task: neovim:shim
+        silent: true
+    status:
+      - test -x ~/.nix-profile/bin/nvim
+
+  neovim:shim:
+    cmds:
+      - task: neovim:shim:nvim
+      - task: neovim:shim:vim
+      - task: neovim:shim:vi
+
+  neovim:shim:nvim:
+    run: once
+    cmds:
+      - cmd: ln -vfs ~/.nix-profile/bin/nvim ~/.local/bin/nvim
+    status:
+      - test -x ~/.local/bin/nvim
+
+  neovim:shim:vim:
+    run: once
+    cmds:
+      - cmd: ln -vfs ~/.nix-profile/bin/nvim ~/.local/bin/vim
+    status:
+      - test -x ~/.local/bin/vim
+
+  neovim:shim:vi:
+    run: once
+    cmds:
+      - cmd: ln -vfs ~/.nix-profile/bin/nvim ~/.local/bin/vi
+    status:
+      - test -x ~/.local/bin/vi
+
   starship:
     deps:
       - nix:shim
