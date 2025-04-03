@@ -14,13 +14,13 @@ tasks:
 
   starship:
     cmds:
-      - cmd: ln -s {{ .TASKFILE_DIR }}/config/starship.toml ~/.config/starship.toml
+      - cmd: ln -vfs {{ .TASKFILE_DIR }}/configs/starship.toml ~/.config/starship.toml
     status:
       - test -e ~/.config/starship.toml
 
   neovim:
     cmds:
-      - cmd: ln -s {{ .TASKFILE_DIR }}/config/nvim ~/.config/nvim
+      - cmd: ln -s {{ .TASKFILE_DIR }}/configs/nvim ~/.config/nvim
     defer:
       - task: neovim:mason
     status:
