@@ -5,7 +5,6 @@ tasks:
   xdg:
     cmds:
       - mkdir -p ~/.config ~/.local/share ~/.local/state ~/.local/bin
-    silent: true
     status:
       - test -d ~/.config
       - test -d ~/.local/share
@@ -62,3 +61,24 @@ tasks:
     dir: "{{ .TASKFILE_DIR }}"
     method: checksum
     run: when_changed
+
+  git:
+    cmds:
+      - task: git:config
+      - task: git:ignore
+
+  git:config:
+    cmds:
+      - mkdir -p ~/.config/git
+      - ln -vfs '{{ .TASKFILE_DIR }}/config/git/config' ~/.config/git/config
+      - touch ~/.config/git/config.local
+    status:
+      - test -e ~/.config/git/config
+      - test -e ~/.config/git/config.local
+
+  git:ignore:
+    cmds:
+      - mkdir -p ~/.config/git
+      - ln -vfs '{{ .TASKFILE_DIR }}/config/git/ignore' ~/.config/git/ignore
+    status:
+      - test -e ~/.config/git/ignore
