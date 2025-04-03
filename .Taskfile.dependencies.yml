@@ -28,6 +28,7 @@ tasks:
         fi
     status:
       - test -e ~/.local/bin/nix
+    silent: true
     run: once
 
   zsh:

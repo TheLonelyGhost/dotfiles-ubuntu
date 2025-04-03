@@ -40,24 +40,24 @@ tasks:
       - mkdir -p ~/.zsh/{configs,functions,completion}
       - |
         while read -r source; do
-          ln -vfs "{{ .TASKFILE_DIR }}/${source}" ~/.zsh/configs/"${source//.\/config\/zsh\/configs\//}"
-        done <(find ./config/zsh/configs -name '*.zsh' -type f)
+          ln -vfs "{{ .TASKFILE_DIR }}/${source}" ~/.zsh/configs/"${source//.\/configs\/zsh\/config\//}"
+        done <(find ./configs/zsh/config -name '*.zsh' -type f)
       - |
         while read -r source; do
-          ln -vfs "{{ .TASKFILE_DIR }}/${source}" ~/.zsh/functions/"${source//.\/config\/zsh\/functions\//}"
-        done <(find ./config/zsh/functions -name '*' -type f)
+          ln -vfs "{{ .TASKFILE_DIR }}/${source}" ~/.zsh/functions/"${source//.\/configs\/zsh\/functions\//}"
+        done <(find ./configs/zsh/functions -name '*' -type f)
       - |
         while read -r source; do
-          ln -vfs "{{ .TASKFILE_DIR }}/${source}" ~/.zsh/completion/"${source//.\/config\/zsh\/completion\//}"
-        done <(find ./config/zsh/completion -name '*' -type f)
+          ln -vfs "{{ .TASKFILE_DIR }}/${source}" ~/.zsh/completion/"${source//.\/configs\/zsh\/completion\//}"
+        done <(find ./configs/zsh/completion -name '*' -type f)
       - |
-        ln -vfs '{{ .TASKFILE_DIR }}/config/zsh/zshrc' ~/.zshrc
+        ln -vfs '{{ .TASKFILE_DIR }}/configs/zsh/zshrc' ~/.zshrc
         touch ~/.zshrc.local
       - |
-        ln -vfs '{{ .TASKFILE_DIR }}/config/zsh/zshenv' ~/.zshenv
+        ln -vfs '{{ .TASKFILE_DIR }}/configs/zsh/zshenv' ~/.zshenv
         touch ~/.zshenv.local
     sources:
-      - ./config/zsh/**
+      - ./configs/zsh/**
     dir: "{{ .TASKFILE_DIR }}"
     method: checksum
     run: when_changed
@@ -70,7 +70,7 @@ tasks:
   git:config:
     cmds:
       - mkdir -p ~/.config/git
-      - ln -vfs '{{ .TASKFILE_DIR }}/config/git/config' ~/.config/git/config
+      - ln -vfs '{{ .TASKFILE_DIR }}/configs/git/config' ~/.config/git/config
       - touch ~/.config/git/config.local
     status:
       - test -e ~/.config/git/config
@@ -79,6 +79,6 @@ tasks:
   git:ignore:
     cmds:
       - mkdir -p ~/.config/git
-      - ln -vfs '{{ .TASKFILE_DIR }}/config/git/ignore' ~/.config/git/ignore
+      - ln -vfs '{{ .TASKFILE_DIR }}/configs/git/ignore' ~/.config/git/ignore
     status:
       - test -e ~/.config/git/ignore
