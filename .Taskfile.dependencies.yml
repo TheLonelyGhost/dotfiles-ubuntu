@@ -9,15 +9,32 @@ tasks:
     preconditions:
       - sh: "command -v curl &>/dev/null"
         msg: "requires `curl` to be installed"
+    defer:
+      - task: nix:shim
+        silent: true
     status:
       - test -e /nix
 
-  zsh:
-    preconditions:
-      - sh: test -x ~/.nix-profile/bin/nix
-        msg: "requires `nix` to be installed"
+  nix:shim:
     cmds:
-      - ~/.nix-profile/bin/nix profile install nixpkgs#zsh
+      - |
+        if [ -x ~/.nix-profile/bin/nix ]; then
+          ln -vfs ~/.nix-profile/bin/nix ~/.local/bin/nix
+        elif [ -x /nix/var/nix/profiles/default/bin/nix ]; then
+          ln -vfs /nix/var/nix/profiles/default/bin/nix ~/.local/bin/nix
+        else
+          printf 'Nix is not installed\n' >&2
+          exit 1
+        fi
+    status:
+      - test -e ~/.local/bin/nix
+    run: once
+
+  zsh:
+    deps:
+      - nix:shim
+    cmds:
+      - ~/.local/bin/nix profile install nixpkgs#zsh
     status:
       - test -x ~/.nix-profile/bin/zsh
 
@@ -31,29 +48,26 @@ tasks:
       - test -e ~/.zplug/
 
   direnv:
-    preconditions:
-      - sh: test -x ~/.nix-profile/bin/nix
-        msg: "requires `nix` to be installed"
+    deps:
+      - nix:shim
     cmds:
-      - ~/.nix-profile/bin/nix profile install nixpkgs#direnv
+      - ~/.local/bin/nix profile install nixpkgs#direnv
     status:
       - test -x ~/.nix-profile/bin/direnv
 
   curl:
-    preconditions:
-      - sh: test -x ~/.nix-profile/bin/nix
-        msg: "requires `nix` to be installed"
+    deps:
+      - nix:shim
     cmds:
-      - ~/.nix-profile/bin/nix profile install nixpkgs#curl
+      - ~/.local/bin/nix profile install nixpkgs#curl
     status:
       - test -x ~/.nix-profile/bin/curl
 
   unzip:
-    preconditions:
-      - sh: test -x ~/.nix-profile/bin/nix
-        msg: "requires `nix` to be installed"
+    deps:
+      - nix:shim
     cmds:
-      - ~/.nix-profile/bin/nix profile install nixpkgs#unzip
+      - ~/.local/bin/nix profile install nixpkgs#unzip
     status:
       - test -x ~/.nix-profile/bin/unzip
 
@@ -96,10 +110,9 @@ tasks:
       - test -x ~/.local/bin/vault
 
   starship:
-    preconditions:
-      - sh: test -x ~/.nix-profile/bin/nix
-        msg: "requires `nix` to be installed"
+    deps:
+      - nix:shim
     cmds:
-      - ~/.nix-profile/bin/nix profile install nixpkgs#starship
+      - ~/.local/bin/nix profile install nixpkgs#starship
     status:
       - test -x ~/.nix-profile/bin/starship
