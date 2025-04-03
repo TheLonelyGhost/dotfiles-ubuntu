@@ -84,7 +84,7 @@ tasks:
         tempdir="$(mktemp -d)"
         trap 'rm -rf "$tempdir"' EXIT
         pushd "$tempdir" &>/dev/null
-        curl -SsLo ./terraform.zip 'https://releases.hashicorp.com/terraform/{{ .Vars.terraform_version }}/terraform_{{ .Vars.terraform_version }}_{{ OS }}_{{ ARCH }}.zip'
+        curl -SsLo ./terraform.zip 'https://releases.hashicorp.com/terraform/{{ .terraform_version }}/terraform_{{ .terraform_version }}_{{ OS }}_{{ ARCH }}.zip'
         unzip ./terraform.zip
         install -m0755 ./terraform ~/.local/bin
         popd &>/dev/null
@@ -103,7 +103,7 @@ tasks:
         tempdir="$(mktemp -d)"
         trap 'rm -rf "$tempdir"' EXIT
         pushd "$tempdir" &>/dev/null
-        curl -SsLo ./vault.zip 'https://releases.hashicorp.com/vault/{{ .Vars.vault_version }}/vault_{{ .Vars.vault_version }}_{{ OS }}_{{ ARCH }}.zip'
+        curl -SsLo ./vault.zip 'https://releases.hashicorp.com/vault/{{ .vault_version }}/vault_{{ .vault_version }}_{{ OS }}_{{ ARCH }}.zip'
         unzip ./vault.zip
         install -m0755 ./vault ~/.local/bin
         popd &>/dev/null
