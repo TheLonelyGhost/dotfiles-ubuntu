@@ -14,10 +14,10 @@ tasks:
 
   zsh:
     preconditions:
-      - sh: "command -v nix &>/dev/null"
+      - sh: test -x ~/.nix-profile/bin/nix
         msg: "requires `nix` to be installed"
     cmds:
-      - nix profile install nixpkgs#zsh
+      - ~/.nix-profile/bin/nix profile install nixpkgs#zsh
     status:
       - test -x ~/.nix-profile/bin/zsh
 
@@ -32,28 +32,28 @@ tasks:
 
   direnv:
     preconditions:
-      - sh: "command -v nix &>/dev/null"
+      - sh: test -x ~/.nix-profile/bin/nix
         msg: "requires `nix` to be installed"
     cmds:
-      - nix profile install nixpkgs#direnv
+      - ~/.nix-profile/bin/nix profile install nixpkgs#direnv
     status:
       - test -x ~/.nix-profile/bin/direnv
 
   curl:
     preconditions:
-      - sh: "command -v nix &>/dev/null"
+      - sh: test -x ~/.nix-profile/bin/nix
         msg: "requires `nix` to be installed"
     cmds:
-      - nix profile install nixpkgs#curl
+      - ~/.nix-profile/bin/nix profile install nixpkgs#curl
     status:
       - test -x ~/.nix-profile/bin/curl
 
   unzip:
     preconditions:
-      - sh: "command -v nix &>/dev/null"
+      - sh: test -x ~/.nix-profile/bin/nix
         msg: "requires `nix` to be installed"
     cmds:
-      - nix profile install nixpkgs#unzip
+      - ~/.nix-profile/bin/nix profile install nixpkgs#unzip
     status:
       - test -x ~/.nix-profile/bin/unzip
 
@@ -97,9 +97,9 @@ tasks:
 
   starship:
     preconditions:
-      - sh: "command -v nix &>/dev/null"
+      - sh: test -x ~/.nix-profile/bin/nix
         msg: "requires `nix` to be installed"
     cmds:
-      - nix profile install nixpkgs#starship
+      - ~/.nix-profile/bin/nix profile install nixpkgs#starship
     status:
       - test -x ~/.nix-profile/bin/starship
