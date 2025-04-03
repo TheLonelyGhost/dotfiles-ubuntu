@@ -10,7 +10,7 @@ tasks:
       - sh: "command -v curl &>/dev/null"
         msg: "requires `curl` to be installed"
     status:
-      - "! test -e /nix"
+      - test -e /nix
 
   zsh:
     preconditions:
@@ -19,7 +19,7 @@ tasks:
     cmds:
       - nix profile install nixpkgs#zsh
     status:
-      - "! test -x ~/.nix-profile/bin/zsh"
+      - test -x ~/.nix-profile/bin/zsh
 
   zplug:
     preconditions:
@@ -28,7 +28,7 @@ tasks:
     cmds:
       - git clone https://github.com/zplug/zplug.git ~/.zplug
     status:
-      - "! test -e ~/.zplug/"
+      - test -e ~/.zplug/
 
   direnv:
     deps:
@@ -39,7 +39,7 @@ tasks:
     cmds:
       - nix profile install nixpkgs#direnv
     status:
-      - "! test -x ~/.nix-profile/bin/direnv"
+      - test -x ~/.nix-profile/bin/direnv
 
   curl:
     deps:
@@ -47,7 +47,7 @@ tasks:
     cmds:
       - nix profile install nixpkgs#curl
     status:
-      - "! test -x ~/.nix-profile/bin/curl"
+      - test -x ~/.nix-profile/bin/curl
 
   unzip:
     deps:
@@ -55,7 +55,7 @@ tasks:
     cmds:
       - nix profile install nixpkgs#unzip
     status:
-      - "! test -x ~/.nix-profile/bin/unzip"
+      - test -x ~/.nix-profile/bin/unzip
 
   terraform:
     requires:
@@ -74,7 +74,7 @@ tasks:
         install -m0755 ./terraform ~/.local/bin
         popd &>/dev/null
     status:
-      - "! test -x ~/.local/bin/terraform"
+      - test -x ~/.local/bin/terraform
 
   vault:
     requires:
@@ -93,7 +93,7 @@ tasks:
         install -m0755 ./vault ~/.local/bin
         popd &>/dev/null
     status:
-      - "! test -x ~/.local/bin/vault"
+      - test -x ~/.local/bin/vault
 
   starship:
     deps:
@@ -101,4 +101,4 @@ tasks:
     cmds:
       - nix profile install nixpkgs#starship
     status:
-      - "! test -x ~/.nix-profile/bin/starship"
+      - test -x ~/.nix-profile/bin/starship
