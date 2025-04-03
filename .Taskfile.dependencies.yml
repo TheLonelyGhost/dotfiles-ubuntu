@@ -13,6 +13,8 @@ tasks:
       - test -e /nix
 
   zsh:
+    env:
+      PATH: "${HOME}/.local/bin:${HOME}/.nix-profile/bin:${PATH}"
     preconditions:
       - sh: "command -v nix &>/dev/null"
         msg: "requires `nix` to be installed"
@@ -31,27 +33,31 @@ tasks:
       - test -e ~/.zplug/
 
   direnv:
-    deps:
-      - nix
-    # preconditions:
-    #   - sh: "command -v nix &>/dev/null"
-    #     msg: "requires `nix` to be installed"
+    preconditions:
+      - sh: "command -v nix &>/dev/null"
+        msg: "requires `nix` to be installed"
     cmds:
       - nix profile install nixpkgs#direnv
     status:
       - test -x ~/.nix-profile/bin/direnv
 
   curl:
-    deps:
-      - nix
+    env:
+      PATH: "${HOME}/.local/bin:${HOME}/.nix-profile/bin:${PATH}"
+    preconditions:
+      - sh: "command -v nix &>/dev/null"
+        msg: "requires `nix` to be installed"
     cmds:
       - nix profile install nixpkgs#curl
     status:
       - test -x ~/.nix-profile/bin/curl
 
   unzip:
-    deps:
-      - nix
+    env:
+      PATH: "${HOME}/.local/bin:${HOME}/.nix-profile/bin:${PATH}"
+    preconditions:
+      - sh: "command -v nix &>/dev/null"
+        msg: "requires `nix` to be installed"
     cmds:
       - nix profile install nixpkgs#unzip
     status:
@@ -96,8 +102,11 @@ tasks:
       - test -x ~/.local/bin/vault
 
   starship:
-    deps:
-      - nix
+    env:
+      PATH: "${HOME}/.local/bin:${HOME}/.nix-profile/bin:${PATH}"
+    preconditions:
+      - sh: "command -v nix &>/dev/null"
+        msg: "requires `nix` to be installed"
     cmds:
       - nix profile install nixpkgs#starship
     status:
