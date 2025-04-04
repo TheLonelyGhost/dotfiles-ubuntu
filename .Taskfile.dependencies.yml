@@ -4,11 +4,11 @@ version: "3"
 tasks:
   nix:
     cmds:
-      - "curl -fsSL https://install.determinate.systems/nix | sh -s -- install --determinate"
+      - cmd: curl -fsSL https://install.determinate.systems/nix | sh -s -- install --determinate
     interactive: true
     preconditions:
-      - sh: "command -v curl &>/dev/null"
-        msg: "requires `curl` to be installed"
+      - sh: command -v curl &>/dev/null
+        msg: requires `curl` to be installed
     defer:
       - task: nix:shim
         silent: true
@@ -17,15 +17,15 @@ tasks:
 
   nix:shim:
     cmds:
-      - |
-        if [ -x ~/.nix-profile/bin/nix ]; then
-          ln -vfs ~/.nix-profile/bin/nix ~/.local/bin/nix
-        elif [ -x /nix/var/nix/profiles/default/bin/nix ]; then
-          ln -vfs /nix/var/nix/profiles/default/bin/nix ~/.local/bin/nix
-        else
-          printf 'Nix is not installed\n' >&2
-          exit 1
-        fi
+      - cmd: |
+          if [ -x ~/.nix-profile/bin/nix ]; then
+            ln -vfs ~/.nix-profile/bin/nix ~/.local/bin/nix
+          elif [ -x /nix/var/nix/profiles/default/bin/nix ]; then
+            ln -vfs /nix/var/nix/profiles/default/bin/nix ~/.local/bin/nix
+          else
+            printf 'Nix is not installed\n' >&2
+            exit 1
+          fi
     status:
       - test -e ~/.local/bin/nix
     silent: true
@@ -35,16 +35,16 @@ tasks:
     deps:
       - nix:shim
     cmds:
-      - ~/.local/bin/nix profile install nixpkgs#zsh
+      - cmd: ~/.local/bin/nix profile install nixpkgs#zsh
     status:
       - test -x ~/.nix-profile/bin/zsh
 
   zplug:
     preconditions:
-      - sh: "command -v git &>/dev/null"
-        msg: "requires `git` to be installed"
+      - sh: command -v git &>/dev/null
+        msg: requires `git` to be installed
     cmds:
-      - git clone https://github.com/zplug/zplug.git ~/.zplug
+      - cmd: git clone https://github.com/zplug/zplug.git ~/.zplug
     status:
       - test -e ~/.zplug/
 
@@ -52,7 +52,7 @@ tasks:
     deps:
       - nix:shim
     cmds:
-      - ~/.local/bin/nix profile install nixpkgs#direnv
+      - cmd: ~/.local/bin/nix profile install nixpkgs#direnv
     status:
       - test -x ~/.nix-profile/bin/direnv
 
@@ -60,17 +60,21 @@ tasks:
     deps:
       - nix:shim
     cmds:
-      - ~/.local/bin/nix profile install nixpkgs#curl
+      - cmd: ~/.local/bin/nix profile install nixpkgs#curl
+      - cmd: ln -fs ~/.nix-profile/bin/curl ~/.local/bin/curl
     status:
       - test -x ~/.nix-profile/bin/curl
+      - test -x ~/.local/bin/curl
 
   unzip:
     deps:
       - nix:shim
     cmds:
-      - ~/.local/bin/nix profile install nixpkgs#unzip
+      - cmd: ~/.local/bin/nix profile install nixpkgs#unzip
+      - cmd: ln -fs ~/.nix-profile/bin/unzip ~/.local/bin/unzip
     status:
       - test -x ~/.nix-profile/bin/unzip
+      - test -x ~/.local/bin/unzip
 
   terraform:
     requires:
@@ -80,14 +84,15 @@ tasks:
       - curl
       - unzip
     cmds:
-      - |
-        tempdir="$(mktemp -d)"
-        trap 'rm -rf "$tempdir"' EXIT
-        pushd "$tempdir" &>/dev/null
-        curl -SsLo ./terraform.zip 'https://releases.hashicorp.com/terraform/{{ .terraform_version }}/terraform_{{ .terraform_version }}_{{ OS }}_{{ ARCH }}.zip'
-        unzip ./terraform.zip
-        install -m0755 ./terraform ~/.local/bin
-        popd &>/dev/null
+      - cmd: |
+          export PATH="${HOME}/.local/bin:${PATH}"
+          tempdir="$(mktemp -d)"
+          trap 'rm -rf "$tempdir"' EXIT
+          pushd "$tempdir" &>/dev/null
+          curl -SsLo ./terraform.zip 'https://releases.hashicorp.com/terraform/{{ .terraform_version }}/terraform_{{ .terraform_version }}_{{ OS }}_{{ ARCH }}.zip'
+          unzip ./terraform.zip
+          install -m0755 ./terraform ~/.local/bin
+          popd &>/dev/null
     status:
       - test -x ~/.local/bin/terraform
 
@@ -99,14 +104,15 @@ tasks:
       - curl
       - unzip
     cmds:
-      - |
-        tempdir="$(mktemp -d)"
-        trap 'rm -rf "$tempdir"' EXIT
-        pushd "$tempdir" &>/dev/null
-        curl -SsLo ./vault.zip 'https://releases.hashicorp.com/vault/{{ .vault_version }}/vault_{{ .vault_version }}_{{ OS }}_{{ ARCH }}.zip'
-        unzip ./vault.zip
-        install -m0755 ./vault ~/.local/bin
-        popd &>/dev/null
+      - cmd: |
+          export PATH="${HOME}/.local/bin:${PATH}"
+          tempdir="$(mktemp -d)"
+          trap 'rm -rf "$tempdir"' EXIT
+          pushd "$tempdir" &>/dev/null
+          curl -SsLo ./vault.zip 'https://releases.hashicorp.com/vault/{{ .vault_version }}/vault_{{ .vault_version }}_{{ OS }}_{{ ARCH }}.zip'
+          unzip ./vault.zip
+          install -m0755 ./vault ~/.local/bin
+          popd &>/dev/null
     status:
       - test -x ~/.local/bin/vault
 
@@ -114,25 +120,19 @@ tasks:
     deps:
       - nix:shim
     cmds:
-      - ~/.local/bin/nix profile install nixpkgs#neovim
+      - cmd: ~/.local/bin/nix profile install nixpkgs#neovim
+      - cmd: ln -vfs ~/.nix-profile/bin/nvim ~/.local/bin/nvim
     defer:
       - task: neovim:shim
         silent: true
     status:
       - test -x ~/.nix-profile/bin/nvim
+      - test -x ~/.local/bin/nvim
 
   neovim:shim:
     cmds:
-      - task: neovim:shim:nvim
       - task: neovim:shim:vim
       - task: neovim:shim:vi
-
-  neovim:shim:nvim:
-    run: once
-    cmds:
-      - cmd: ln -vfs ~/.nix-profile/bin/nvim ~/.local/bin/nvim
-    status:
-      - test -x ~/.local/bin/nvim
 
   neovim:shim:vim:
     run: once
@@ -152,6 +152,6 @@ tasks:
     deps:
       - nix:shim
     cmds:
-      - ~/.local/bin/nix profile install nixpkgs#starship
+      - cmd: ~/.local/bin/nix profile install nixpkgs#starship
     status:
       - test -x ~/.nix-profile/bin/starship
