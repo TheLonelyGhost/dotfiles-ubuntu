@@ -29,6 +29,7 @@ tasks:
     cmds:
       - task: shell
       - task: neovim
+      - task: deps:ghq
       - task: deps:terraform
       - task: deps:vault
 

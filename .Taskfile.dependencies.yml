@@ -155,3 +155,13 @@ tasks:
       - cmd: ~/.local/bin/nix profile install nixpkgs#starship
     status:
       - test -x ~/.nix-profile/bin/starship
+
+  ghq:
+    deps:
+      - nix:shim
+    cmds:
+      - cmd: ~/.local/bin/nix profile install nixpkgs#ghq
+      - cmd: ln -fs ~/.nix-profile/bin/ghq ~/.local/bin/ghq
+    status:
+      - test -x ~/.nix-profile/bin/ghq
+      - test -x ~/.local/bin/ghq
