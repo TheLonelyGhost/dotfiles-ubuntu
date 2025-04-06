@@ -99,7 +99,7 @@ tasks:
           popd &>/dev/null
     status:
       - test -x ~/.local/bin/terraform
-      - terraform -version | grep -qFe '{{ .terraform_version }}'
+      - ~/.local/bin/terraform -version | grep -qFe '{{ .terraform_version }}'
 
   vault:
     requires:
@@ -120,7 +120,7 @@ tasks:
           popd &>/dev/null
     status:
       - test -x ~/.local/bin/vault
-      - vault -version | grep -qFe '{{ .vault_version }}'
+      - ~/.local/bin/vault -version | grep -qFe '{{ .vault_version }}'
 
   packer:
     requires:
@@ -141,7 +141,7 @@ tasks:
           popd &>/dev/null
     status:
       - test -x ~/.local/bin/packer
-      - packer -version | grep -qFe '{{ .packer_version }}'
+      - ~/.local/bin/packer -version | grep -qFe '{{ .packer_version }}'
 
   nomad:
     requires:
@@ -162,7 +162,7 @@ tasks:
           popd &>/dev/null
     status:
       - test -x ~/.local/bin/nomad
-      - nomad -version | grep -qFe '{{ .nomad_version }}'
+      - ~/.local/bin/nomad -version | grep -qFe '{{ .nomad_version }}'
 
   nomad:pack:
     requires:
@@ -183,7 +183,7 @@ tasks:
           popd &>/dev/null
     status:
       - test -x ~/.local/bin/nomad-pack
-      - nomad-pack -version | grep -qFe '{{ .nomadpack_version }}'
+      - ~/.local/bin/nomad-pack -version | grep -qFe '{{ .nomadpack_version }}'
 
   consul:
     requires:
@@ -204,7 +204,7 @@ tasks:
           popd &>/dev/null
     status:
       - test -x ~/.local/bin/consul
-      - consul -version | grep -qFe '{{ .consul_version }}'
+      - ~/.local/bin/consul -version | grep -qFe '{{ .consul_version }}'
 
   waypoint:
     requires:
@@ -225,7 +225,7 @@ tasks:
           popd &>/dev/null
     status:
       - test -x ~/.local/bin/waypoint
-      - waypoint -version | grep -qFe '{{ .waypoint_version }}'
+      - ~/.local/bin/waypoint -version | grep -qFe '{{ .waypoint_version }}'
 
   boundary:
     requires:
@@ -246,7 +246,7 @@ tasks:
           popd &>/dev/null
     status:
       - test -x ~/.local/bin/boundary
-      - boundary -version | grep -qFe '{{ .boundary_version }}'
+      - ~/.local/bin/boundary -version | grep -qFe '{{ .boundary_version }}'
 
   neovim:
     deps:
