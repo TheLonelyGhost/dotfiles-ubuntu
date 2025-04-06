@@ -120,6 +120,126 @@ tasks:
     status:
       - test -x ~/.local/bin/vault
 
+  packer:
+    requires:
+      vars:
+        - packer_version
+    deps:
+      - curl
+      - unzip
+    cmds:
+      - cmd: |
+          export PATH="${HOME}/.local/bin:${PATH}"
+          tempdir="$(mktemp -d)"
+          trap 'rm -rf "$tempdir"' EXIT
+          pushd "$tempdir" &>/dev/null
+          curl -SsLo ./packer.zip 'https://releases.hashicorp.com/packer/{{ .packer_version }}/packer_{{ .packer_version }}_{{ OS }}_{{ ARCH }}.zip'
+          unzip ./packer.zip
+          install -m0755 ./packer ~/.local/bin
+          popd &>/dev/null
+    status:
+      - test -x ~/.local/bin/packer
+
+  nomad:
+    requires:
+      vars:
+        - nomad_version
+    deps:
+      - curl
+      - unzip
+    cmds:
+      - cmd: |
+          export PATH="${HOME}/.local/bin:${PATH}"
+          tempdir="$(mktemp -d)"
+          trap 'rm -rf "$tempdir"' EXIT
+          pushd "$tempdir" &>/dev/null
+          curl -SsLo ./nomad.zip 'https://releases.hashicorp.com/nomad/{{ .nomad_version }}/nomad_{{ .nomad_version }}_{{ OS }}_{{ ARCH }}.zip'
+          unzip ./nomad.zip
+          install -m0755 ./nomad ~/.local/bin
+          popd &>/dev/null
+    status:
+      - test -x ~/.local/bin/nomad
+
+  nomad:pack:
+    requires:
+      vars:
+        - nomadpack_version
+    deps:
+      - curl
+      - unzip
+    cmds:
+      - cmd: |
+          export PATH="${HOME}/.local/bin:${PATH}"
+          tempdir="$(mktemp -d)"
+          trap 'rm -rf "$tempdir"' EXIT
+          pushd "$tempdir" &>/dev/null
+          curl -SsLo ./nomadpack.zip 'https://releases.hashicorp.com/nomad-pack/{{ .nomadpack_version }}/nomad-pack_{{ .nomadpack_version }}_{{ OS }}_{{ ARCH }}.zip'
+          unzip ./nomadpack.zip
+          install -m0755 ./nomad-pack ~/.local/bin
+          popd &>/dev/null
+    status:
+      - test -x ~/.local/bin/nomad-pack
+
+  consul:
+    requires:
+      vars:
+        - consul_version
+    deps:
+      - curl
+      - unzip
+    cmds:
+      - cmd: |
+          export PATH="${HOME}/.local/bin:${PATH}"
+          tempdir="$(mktemp -d)"
+          trap 'rm -rf "$tempdir"' EXIT
+          pushd "$tempdir" &>/dev/null
+          curl -SsLo ./consul.zip 'https://releases.hashicorp.com/consul/{{ .consul_version }}/consul_{{ .consul_version }}_{{ OS }}_{{ ARCH }}.zip'
+          unzip ./consul.zip
+          install -m0755 ./consul ~/.local/bin
+          popd &>/dev/null
+    status:
+      - test -x ~/.local/bin/consul
+
+  waypoint:
+    requires:
+      vars:
+        - waypoint_version
+    deps:
+      - curl
+      - unzip
+    cmds:
+      - cmd: |
+          export PATH="${HOME}/.local/bin:${PATH}"
+          tempdir="$(mktemp -d)"
+          trap 'rm -rf "$tempdir"' EXIT
+          pushd "$tempdir" &>/dev/null
+          curl -SsLo ./waypoint.zip 'https://releases.hashicorp.com/waypoint/{{ .waypoint_version }}/waypoint_{{ .waypoint_version }}_{{ OS }}_{{ ARCH }}.zip'
+          unzip ./waypoint.zip
+          install -m0755 ./waypoint ~/.local/bin
+          popd &>/dev/null
+    status:
+      - test -x ~/.local/bin/waypoint
+
+  boundary:
+    requires:
+      vars:
+        - boundary_version
+    deps:
+      - curl
+      - unzip
+    cmds:
+      - cmd: |
+          export PATH="${HOME}/.local/bin:${PATH}"
+          tempdir="$(mktemp -d)"
+          trap 'rm -rf "$tempdir"' EXIT
+          pushd "$tempdir" &>/dev/null
+          curl -SsLo ./boundary.zip 'https://releases.hashicorp.com/boundary/{{ .boundary_version }}/boundary_{{ .boundary_version }}_{{ OS }}_{{ ARCH }}.zip'
+          unzip ./boundary.zip
+          install -m0755 ./boundary ~/.local/bin
+          popd &>/dev/null
+    status:
+      - test -x ~/.local/bin/boundary
+
   neovim:
     deps:
       - nix:shim
