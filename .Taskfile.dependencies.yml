@@ -183,7 +183,7 @@ tasks:
           popd &>/dev/null
     status:
       - test -x ~/.local/bin/nomad-pack
-      - ~/.local/bin/nomad-pack -version | grep -qFe '{{ .nomadpack_version }}'
+      - ~/.local/bin/nomad-pack -version 2>&1 | grep -qFe '{{ .nomadpack_version }}'
 
   consul:
     requires:
