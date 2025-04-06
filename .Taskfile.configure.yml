@@ -85,3 +85,27 @@ tasks:
       - cmd: ln -vfs '{{ .TASKFILE_DIR }}/configs/git/ignore' ~/.config/git/ignore
     status:
       - test -e ~/.config/git/ignore
+
+  tmux:tpm:
+    preconditions:
+      - sh: command -v git &>/dev/null
+        msg: "requires `git` to be installed"
+    cmds:
+      - cmd: mkdir -p ~/.config/tmux/plugins
+        silent: true
+      - cmd: |
+          export PATH="${HOME}/.local/bin:${PATH}"
+          git clone https://github.com/tmux-plugins/tpm.git ~/.config/tmux/plugins/tpm
+    status:
+      - test -x ~/.config/tmux/plugins/tpm/tpm
+
+  tmux:
+    deps:
+      - tmux:tpm
+    cmds:
+      - cmd: ln -vfs '{{ .TASKFILE_DIR }}/configs/tmux/tmux.conf' ~/.config/tmux/tmux.conf
+      - cmd: ~/.config/tmux/plugins/tpm/scripts/install_plugins.sh
+    status:
+      - test -e ~/.config/tmux/tmux.conf
+      - test -e ~/.config/tmux/plugins/tmux-gruvbox
+      - test -e ~/.config/tmux/plugins/tmux-sensible

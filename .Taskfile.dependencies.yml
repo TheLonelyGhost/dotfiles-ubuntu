@@ -36,15 +36,19 @@ tasks:
       - nix:shim
     cmds:
       - cmd: ~/.local/bin/nix profile install nixpkgs#zsh
+      - cmd: ln -fs ~/.nix-profile/bin/zsh ~/.local/bin/zsh
     status:
       - test -x ~/.nix-profile/bin/zsh
+      - test -x ~/.local/bin/zsh
 
   zplug:
-    preconditions:
-      - sh: command -v git &>/dev/null
-        msg: requires `git` to be installed
+    deps:
+      - git
+      - zsh
     cmds:
-      - cmd: git clone https://github.com/zplug/zplug.git ~/.zplug
+      - cmd: |
+          export PATH="${HOME}/.local/bin:${PATH}"
+          git clone https://github.com/zplug/zplug.git ~/.zplug
     status:
       - test -e ~/.zplug/
 
@@ -165,3 +169,27 @@ tasks:
     status:
       - test -x ~/.nix-profile/bin/ghq
       - test -x ~/.local/bin/ghq
+
+  git:
+    deps:
+      - nix:shim
+    cmds:
+      - cmd: ~/.local/bin/nix profile install nixpkgs#git
+      - cmd: ln -fs ~/.nix-profile/bin/git ~/.local/bin/git
+      - cmd: ln -vfs '{{ .TASKFILE_DIR }}/exe/g' ~/.local/bin/g
+    status:
+      - test -x ~/.nix-profile/bin/git
+      - test -x ~/.local/bin/git
+      - test -x ~/.local/bin/g
+
+  tmux:
+    deps:
+      - nix:shim
+    cmds:
+      - cmd: ~/.local/bin/nix profile install nixpkgs#tmux
+      - cmd: ln -fs ~/.nix-profile/bin/tmux ~/.local/bin/tmux
+      - cmd: ln -vfs '{{ .TASKFILE_DIR }}/exe/tat' ~/.local/bin/tat
+    status:
+      - test -x ~/.nix-profile/bin/tmux
+      - test -x ~/.local/bin/tmux
+      - test -x ~/.local/bin/tat
