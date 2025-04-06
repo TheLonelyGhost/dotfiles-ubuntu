@@ -27,11 +27,28 @@ tasks:
     aliases:
       - default
     cmds:
+      - task: gcc
       - task: shell
+      - task: tmux
       - task: neovim
       - task: deps:ghq
       - task: deps:terraform
       - task: deps:vault
+
+  gcc:
+    run: once
+    preconditions:
+      - sh: command -v apt &>/dev/null
+        msg: "requires `apt` to be installed"
+      - sh: command -v sudo &>/dev/null
+        msg: "requires `sudo` to be installed"
+    cmds:
+      - cmd: |
+          sudo apt update -y
+          sudo apt install -y build-essential
+    status:
+      - command -v gcc &>/dev/null
+      - command -v make &>/dev/null
 
   neovim:
     cmds:
@@ -39,9 +56,16 @@ tasks:
       - task: config:neovim
     silent: true
 
+  tmux:
+    cmds:
+      - task: deps:tmux
+      - task: config:tmux
+    silent: true
+
   shell:
     cmds:
       - task: config:xdg
+      - task: deps:git
       - task: deps:nix
       - task: deps:zsh
       - task: deps:zplug
