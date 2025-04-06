@@ -66,6 +66,7 @@ tasks:
     cmds:
       - task: config:xdg
       - task: deps:git
+      - task: config:git
       - task: deps:nix
       - task: deps:zsh
       - task: deps:zplug
