@@ -38,6 +38,7 @@ tasks:
       - task: tmux
       - task: neovim
       - task: deps:ghq
+      - task: hashi
 
   hashi:
     run: once
