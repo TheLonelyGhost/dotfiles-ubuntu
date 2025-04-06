@@ -70,5 +70,9 @@ tasks:
       - task: deps:nix
       - task: deps:zsh
       - task: deps:zplug
+      - task: deps:starship
+      - task: config:starship
+      - task: deps:fzf
+      - task: deps:direnv
       - task: config:zsh
     # TODO: Set shell to be zsh

@@ -193,3 +193,13 @@ tasks:
       - test -x ~/.nix-profile/bin/tmux
       - test -x ~/.local/bin/tmux
       - test -x ~/.local/bin/tat
+
+  fzf:
+    deps:
+      - nix:shim
+    cmds:
+      - cmd: ~/.local/bin/nix profile install nixpkgs#fzf
+      - cmd: ln -fs ~/.nix-profile/bin/fzf ~/.local/bin/fzf
+    status:
+      - test -x ~/.nix-profile/bin/fzf
+      - test -x ~/.local/bin/fzf
