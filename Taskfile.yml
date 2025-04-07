@@ -29,10 +29,12 @@ includes:
     internal: true
 
 tasks:
-  setup:
+  default:
+    desc: Setup workstation configuration
     aliases:
-      - default
+      - setup
     cmds:
+      - task: sudo
       - task: gcc
       - task: shell
       - task: tmux
@@ -41,6 +43,8 @@ tasks:
       - task: hashi
 
   hashi:
+    internal: true
+    desc: Install the HashiCorp suite of software
     run: once
     cmds:
       - task: deps:terraform
@@ -52,7 +56,19 @@ tasks:
       - task: deps:waypoint
       - task: deps:boundary
 
+  sudo:
+    internal: true
+    desc: Setup passwordless sudo for current user
+    run: once
+    interactive: true
+    cmds:
+      - cmd: printf '%s\tALL=(ALL:ALL) NOPASSWD:ALL\n' "$(whoami)" | sudo tee /etc/sudoers.d/99-local-changes >/dev/null
+    status:
+      - sudo test -e /etc/sudoers.d/99-local-changes
+
   gcc:
+    internal: true
+    desc: Install a C compiler of some sort
     run: once
     preconditions:
       - sh: command -v apt &>/dev/null
@@ -68,18 +84,24 @@ tasks:
       - command -v make &>/dev/null
 
   neovim:
+    internal: true
+    desc: Install and configure NeoVim as an editor
     cmds:
       - task: deps:neovim
       - task: config:neovim
     silent: true
 
   tmux:
+    internal: true
+    desc: Install and configure tmux as a terminal multiplexer
     cmds:
       - task: deps:tmux
       - task: config:tmux
     silent: true
 
   shell:
+    internal: true
+    desc: Configure the shell environment for ZSH
     cmds:
       - task: config:xdg
       - task: deps:git
