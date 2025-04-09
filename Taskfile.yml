@@ -54,7 +54,7 @@ tasks:
       - cmd: sudo curl -fLo /usr/local/share/fonts/NerdFonts/HackNerdFontMono-BoldItalic.ttf https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/Hack/BoldItalic/HackNerdFontMono-BoldItalic.ttf
       - cmd: |
           if command -v fc-cache &>/dev/null; then
-            sudo fc-cache -v /usr/local/share/fonts/NerdFonts
+            fc-cache -v /usr/local/share/fonts/NerdFonts
           fi
         silent: true
     method: timestamp
