@@ -58,11 +58,11 @@ tasks:
           fi
         silent: true
     method: timestamp
-    generates:
-      - ~/.local/share/fonts/NerdFonts/HackNerdFontMono-Regular.ttf
-      - ~/.local/share/fonts/NerdFonts/HackNerdFontMono-Bold.ttf
-      - ~/.local/share/fonts/NerdFonts/HackNerdFontMono-Italic.ttf
-      - ~/.local/share/fonts/NerdFonts/HackNerdFontMono-BoldItalic.ttf
+    status:
+      - test -e ~/.local/share/fonts/NerdFonts/HackNerdFontMono-Regular.ttf
+      - test -e ~/.local/share/fonts/NerdFonts/HackNerdFontMono-Bold.ttf
+      - test -e ~/.local/share/fonts/NerdFonts/HackNerdFontMono-Italic.ttf
+      - test -e ~/.local/share/fonts/NerdFonts/HackNerdFontMono-BoldItalic.ttf
 
   hashi:
     internal: true
