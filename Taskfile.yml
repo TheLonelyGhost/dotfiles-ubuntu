@@ -42,6 +42,25 @@ tasks:
       - task: deps:ghq
       - task: hashi
 
+  nerdfonts:hack:
+    run: once
+    desc: Install Hack (Nerd Font) for nicer characters in shell
+    cmds:
+      - cmd: mkdir -p ~/.local/share/fonts/NerdFonts
+        silent: true
+      - cmd: curl -fLo ~/.local/share/fonts/NerdFonts/HackNerdFontMono-Regular.otf https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/Hack/Regular/HackNerdFontMono-Regular.otf
+      - cmd: curl -fLo ~/.local/share/fonts/NerdFonts/HackNerdFontMono-Bold.otf https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/Hack/Bold/HackNerdFontMono-Bold.otf
+      - cmd: curl -fLo ~/.local/share/fonts/NerdFonts/HackNerdFontMono-Italic.otf https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/Hack/Italic/HackNerdFontMono-Italic.otf
+      - cmd: curl -fLo ~/.local/share/fonts/NerdFonts/HackNerdFontMono-BoldItalic.otf https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/Hack/BoldItalic/HackNerdFontMono-BoldItalic.otf
+      - cmd: |
+          if command -v fc-cache &>/dev/null; then
+            fc-cache -v ~/.local/share/fonts/NerdFonts
+          fi
+        silent: true
+    method: timestamp
+    generates:
+      - ~/.local/share/fonts/NerdFonts/HackNerdFontMono-*.otf
+
   hashi:
     internal: true
     desc: Install the HashiCorp suite of software
@@ -86,6 +105,8 @@ tasks:
   neovim:
     internal: true
     desc: Install and configure NeoVim as an editor
+    deps:
+      - nerdfonts:hack
     cmds:
       - task: deps:neovim
       - task: config:neovim
@@ -94,6 +115,8 @@ tasks:
   tmux:
     internal: true
     desc: Install and configure tmux as a terminal multiplexer
+    deps:
+      - nerdfonts:hack
     cmds:
       - task: deps:tmux
       - task: config:tmux
@@ -102,6 +125,8 @@ tasks:
   shell:
     internal: true
     desc: Configure the shell environment for ZSH
+    deps:
+      - nerdfonts:hack
     cmds:
       - task: config:xdg
       - task: deps:git
