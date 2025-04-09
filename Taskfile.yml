@@ -48,10 +48,10 @@ tasks:
     cmds:
       - cmd: mkdir -p ~/.local/share/fonts/NerdFonts
         silent: true
-      - cmd: curl -fLo ~/.local/share/fonts/NerdFonts/HackNerdFontMono-Regular.otf https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/Hack/Regular/HackNerdFontMono-Regular.otf
-      - cmd: curl -fLo ~/.local/share/fonts/NerdFonts/HackNerdFontMono-Bold.otf https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/Hack/Bold/HackNerdFontMono-Bold.otf
-      - cmd: curl -fLo ~/.local/share/fonts/NerdFonts/HackNerdFontMono-Italic.otf https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/Hack/Italic/HackNerdFontMono-Italic.otf
-      - cmd: curl -fLo ~/.local/share/fonts/NerdFonts/HackNerdFontMono-BoldItalic.otf https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/Hack/BoldItalic/HackNerdFontMono-BoldItalic.otf
+      - cmd: curl -fLo ~/.local/share/fonts/NerdFonts/HackNerdFontMono-Regular.ttf https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/Hack/Regular/HackNerdFontMono-Regular.ttf
+      - cmd: curl -fLo ~/.local/share/fonts/NerdFonts/HackNerdFontMono-Bold.ttf https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/Hack/Bold/HackNerdFontMono-Bold.ttf
+      - cmd: curl -fLo ~/.local/share/fonts/NerdFonts/HackNerdFontMono-Italic.ttf https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/Hack/Italic/HackNerdFontMono-Italic.ttf
+      - cmd: curl -fLo ~/.local/share/fonts/NerdFonts/HackNerdFontMono-BoldItalic.ttf https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/Hack/BoldItalic/HackNerdFontMono-BoldItalic.ttf
       - cmd: |
           if command -v fc-cache &>/dev/null; then
             fc-cache -v ~/.local/share/fonts/NerdFonts
