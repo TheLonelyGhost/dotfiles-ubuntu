@@ -280,6 +280,56 @@ tasks:
     status:
       - test -x ~/.local/bin/vi
 
+  neovim:lsp:
+    run: once
+    deps:
+      - nodejs
+      - ruby
+      - python3
+
+  nodejs:
+    run: once
+    deps:
+      - nix:shim
+    cmds:
+      - cmd: ~/.local/bin/nix profile install nixpkgs#nodejs_23
+      - cmd: ln -fs ~/.nix-profile/bin/node ~/.local/bin/node
+      - cmd: ln -fs ~/.nix-profile/bin/npm ~/.local/bin/npm
+    status:
+      - test -x ~/.nix-profile/bin/node
+      - test -x ~/.nix-profile/bin/npm
+      - test -x ~/.local/bin/node
+      - test -x ~/.local/bin/npm
+
+  ruby:
+    run: once
+    deps:
+      - nix:shim
+    cmds:
+      - cmd: ~/.local/bin/nix profile install nixpkgs#ruby
+      - cmd: ln -fs ~/.nix-profile/bin/ruby ~/.local/bin/ruby
+      - cmd: ln -fs ~/.nix-profile/bin/gem ~/.local/bin/gem
+    status:
+      - test -x ~/.nix-profile/bin/ruby
+      - test -x ~/.local/bin/ruby
+      - test -x ~/.local/bin/gem
+
+  python3:
+    run: once
+    deps:
+      - nix:shim
+    cmds:
+      - cmd: ~/.local/bin/nix profile install nixpkgs#python3
+      - cmd: ln -fs ~/.nix-profile/bin/python3 ~/.local/bin/python3
+      - cmd: ln -fs ~/.nix-profile/bin/python3 ~/.local/bin/python
+      - cmd: ln -fs ~/.nix-profile/bin/pip ~/.local/bin/pip
+    status:
+      - test -x ~/.nix-profile/bin/python3
+      - test -x ~/.nix-profile/bin/pip
+      - test -x ~/.local/bin/python3
+      - test -x ~/.local/bin/python
+      - test -x ~/.local/bin/pip
+
   starship:
     deps:
       - nix:shim
