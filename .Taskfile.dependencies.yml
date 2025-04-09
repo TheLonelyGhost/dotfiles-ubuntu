@@ -296,10 +296,10 @@ tasks:
       - cmd: ln -fs ~/.nix-profile/bin/node ~/.local/bin/node
       - cmd: ln -fs ~/.nix-profile/bin/npm ~/.local/bin/npm
     status:
-      - test -e ~/.nix-profile/bin/node
-      - test -e ~/.nix-profile/bin/npm
-      - test -e ~/.local/bin/node
-      - test -e ~/.local/bin/npm
+      - test -x ~/.nix-profile/bin/node
+      - test -x ~/.nix-profile/bin/npm
+      - test -x ~/.local/bin/node
+      - test -x ~/.local/bin/npm
 
   ruby:
     run: once
@@ -310,10 +310,10 @@ tasks:
       - cmd: ln -fs ~/.nix-profile/bin/ruby ~/.local/bin/ruby
       - cmd: ln -fs ~/.nix-profile/bin/gem ~/.local/bin/gem
     status:
-      - test -e ~/.nix-profile/bin/ruby
-      - test -e ~/.nix-profile/bin/gem
-      - test -e ~/.local/bin/ruby
-      - test -e ~/.local/bin/gem
+      - test -x ~/.nix-profile/bin/ruby
+      - test -x ~/.nix-profile/bin/gem
+      - test -x ~/.local/bin/ruby
+      - test -x ~/.local/bin/gem
 
   python3:
     run: once
@@ -323,13 +323,10 @@ tasks:
       - cmd: ~/.local/bin/nix profile install nixpkgs#python3
       - cmd: ln -fs ~/.nix-profile/bin/python3 ~/.local/bin/python3
       - cmd: ln -fs ~/.nix-profile/bin/python3 ~/.local/bin/python
-      - cmd: ln -fs ~/.nix-profile/bin/pip ~/.local/bin/pip
     status:
-      - test -e ~/.nix-profile/bin/python3
-      - test -e ~/.nix-profile/bin/pip
-      - test -e ~/.local/bin/python3
-      - test -e ~/.local/bin/python
-      - test -e ~/.local/bin/pip
+      - test -x ~/.nix-profile/bin/python3
+      - test -x ~/.local/bin/python3
+      - test -x ~/.local/bin/python
 
   starship:
     deps:
