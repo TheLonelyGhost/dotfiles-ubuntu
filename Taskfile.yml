@@ -59,7 +59,10 @@ tasks:
         silent: true
     method: timestamp
     generates:
-      - ~/.local/share/fonts/NerdFonts/HackNerdFontMono-*.ttf
+      - ~/.local/share/fonts/NerdFonts/HackNerdFontMono-Regular.ttf
+      - ~/.local/share/fonts/NerdFonts/HackNerdFontMono-Bold.ttf
+      - ~/.local/share/fonts/NerdFonts/HackNerdFontMono-Italic.ttf
+      - ~/.local/share/fonts/NerdFonts/HackNerdFontMono-BoldItalic.ttf
 
   hashi:
     internal: true
