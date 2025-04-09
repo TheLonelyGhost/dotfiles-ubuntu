@@ -113,6 +113,7 @@ tasks:
       - nerdfonts:hack
     cmds:
       - task: deps:neovim
+      - task: deps:neovim:shim
       - task: config:neovim
     silent: true
 
