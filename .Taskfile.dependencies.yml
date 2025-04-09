@@ -298,9 +298,9 @@ tasks:
     cmds:
       - cmd: ~/.local/bin/nix profile install nixpkgs#go
       - cmd: ln -fs ~/.nix-profile/bin/go ~/.local/bin/go
-    generates:
-      - ~/.nix-profile/bin/go
-      - ~/.local/bin/go
+    status:
+      - test -x ~/.nix-profile/bin/go
+      - test -x ~/.local/bin/go
 
   nodejs:
     run: once
