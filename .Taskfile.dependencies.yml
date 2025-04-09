@@ -286,6 +286,21 @@ tasks:
       - nodejs
       - ruby
       - python3
+      - golang
+
+  golang:
+    aliases:
+      - go
+    run: once
+    method: timestamp
+    deps:
+      - nix:shim
+    cmds:
+      - cmd: ~/.local/bin/nix profile install nixpkgs#go
+      - cmd: ln -fs ~/.nix-profile/bin/go ~/.local/bin/go
+    generates:
+      - ~/.nix-profile/bin/go
+      - ~/.local/bin/go
 
   nodejs:
     run: once
@@ -303,8 +318,9 @@ tasks:
 
   ruby:
     run: once
-    deps:
-      - nix:shim
+    preconditions:
+      - sh: command -v apt &>/dev/null
+        msg: requires `apt` to be installed
     cmds:
       - cmd: sudo apt install -y ruby-dev
     status:
