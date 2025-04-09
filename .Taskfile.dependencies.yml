@@ -306,14 +306,11 @@ tasks:
     deps:
       - nix:shim
     cmds:
-      - cmd: ~/.local/bin/nix profile install nixpkgs#ruby
-      - cmd: ln -fs ~/.nix-profile/bin/ruby ~/.local/bin/ruby
-      - cmd: ln -fs ~/.nix-profile/bin/gem ~/.local/bin/gem
+      - cmd: sudo apt install -y ruby-dev
     status:
-      - test -x ~/.nix-profile/bin/ruby
-      - test -x ~/.nix-profile/bin/gem
-      - test -x ~/.local/bin/ruby
-      - test -x ~/.local/bin/gem
+      - test -x /usr/bin/ruby
+      - test -x /usr/bin/gem
+      - test -e /usr/include/ruby-*/ruby.h
 
   python3:
     run: once
