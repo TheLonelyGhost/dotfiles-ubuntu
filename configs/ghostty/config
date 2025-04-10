@@ -1,0 +1,8 @@
+font-family = ""
+font-family = "Hack Nerd Font Mono"
+
+theme = ""
+theme = "gruvbox-material"
+
+command = ""
+command = "$HOME/.local/bin/zsh --login --interactive"

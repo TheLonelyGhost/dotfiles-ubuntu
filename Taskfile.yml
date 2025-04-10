@@ -65,6 +65,38 @@ tasks:
       - test -e /usr/local/share/fonts/NerdFonts/HackNerdFontMono-Italic.ttf
       - test -e /usr/local/share/fonts/NerdFonts/HackNerdFontMono-BoldItalic.ttf
 
+  ghostty:
+    desc: Install Ghostty terminal emulator
+    run: once
+    cmds:
+      - task: ghostty:dep
+      - task: ghostty:config
+
+  ghostty:dep:
+    run: once
+    interactive: true
+    deps:
+      - sudo
+    cmds:
+      - cmd: sudo snap install ghostty --classic
+    status:
+      - test -x /snap/bin/ghostty
+
+  ghostty:config:
+    run: once
+    deps:
+      - deps:zsh
+      - nerdfonts:hack
+    cmds:
+      - cmd: mkdir -p ~/.config/ghostty
+        silent: true
+      - cmd: install -b '{{ .TASKFILE_DIR }}/configs/ghostty/config' ~/.config/ghostty/config
+    status:
+      - test -e ~/.config/ghostty/config
+      - grep -qe '^command = ""' -e '^command = ".*/zsh.*"' ~/.config/ghostty/config
+      - grep -qe '^font-family = ""' -e '^font-family = "Hack Nerd Font Mono"' ~/.config/ghostty/config
+      - grep -qe '^theme = ""' -e '^theme = "gruvbox.*"' ~/.config/ghostty/config
+
   hashi:
     internal: true
     desc: Install the HashiCorp suite of software
