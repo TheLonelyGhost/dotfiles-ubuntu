@@ -192,3 +192,4 @@ tasks:
               printf '\nexport PATH="${HOME}/.local/bin:${PATH}"\n' >> ~/.bash_profile
             fi
           fi
+        silent: true
