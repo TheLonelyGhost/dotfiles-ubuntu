@@ -35,7 +35,7 @@ tasks:
     deps:
       - nix:shim
     cmds:
-      - cmd: ~/.local/bin/nix profile install nixpkgs#zsh
+      - cmd: ~/.local/bin/nix profile add nixpkgs#zsh
       - cmd: ln -fs ~/.nix-profile/bin/zsh ~/.local/bin/zsh
     status:
       - test -x ~/.nix-profile/bin/zsh
@@ -56,7 +56,7 @@ tasks:
     deps:
       - nix:shim
     cmds:
-      - cmd: ~/.local/bin/nix profile install nixpkgs#direnv
+      - cmd: ~/.local/bin/nix profile add nixpkgs#direnv
     status:
       - test -x ~/.nix-profile/bin/direnv
 
@@ -64,7 +64,7 @@ tasks:
     deps:
       - nix:shim
     cmds:
-      - cmd: ~/.local/bin/nix profile install nixpkgs#curl
+      - cmd: ~/.local/bin/nix profile add nixpkgs#curl
       - cmd: ln -fs ~/.nix-profile/bin/curl ~/.local/bin/curl
     status:
       - test -x ~/.nix-profile/bin/curl
@@ -74,7 +74,7 @@ tasks:
     deps:
       - nix:shim
     cmds:
-      - cmd: ~/.local/bin/nix profile install nixpkgs#unzip
+      - cmd: ~/.local/bin/nix profile add nixpkgs#unzip
       - cmd: ln -fs ~/.nix-profile/bin/unzip ~/.local/bin/unzip
     status:
       - test -x ~/.nix-profile/bin/unzip
@@ -252,7 +252,7 @@ tasks:
     deps:
       - nix:shim
     cmds:
-      - cmd: ~/.local/bin/nix profile install nixpkgs#neovim
+      - cmd: ~/.local/bin/nix profile add nixpkgs#neovim
       - cmd: ln -vfs ~/.nix-profile/bin/nvim ~/.local/bin/nvim
     defer:
       - task: neovim:shim
@@ -296,7 +296,7 @@ tasks:
     deps:
       - nix:shim
     cmds:
-      - cmd: ~/.local/bin/nix profile install nixpkgs#go
+      - cmd: ~/.local/bin/nix profile add nixpkgs#go
       - cmd: ln -fs ~/.nix-profile/bin/go ~/.local/bin/go
     status:
       - test -x ~/.nix-profile/bin/go
@@ -307,7 +307,7 @@ tasks:
     deps:
       - nix:shim
     cmds:
-      - cmd: ~/.local/bin/nix profile install nixpkgs#nodejs_23
+      - cmd: ~/.local/bin/nix profile add nixpkgs#nodejs_23
       - cmd: ln -fs ~/.nix-profile/bin/node ~/.local/bin/node
       - cmd: ln -fs ~/.nix-profile/bin/npm ~/.local/bin/npm
     status:
@@ -333,7 +333,7 @@ tasks:
     deps:
       - nix:shim
     cmds:
-      - cmd: ~/.local/bin/nix profile install nixpkgs#python3
+      - cmd: ~/.local/bin/nix profile add nixpkgs#python3
       - cmd: ln -fs ~/.nix-profile/bin/python3 ~/.local/bin/python3
       - cmd: ln -fs ~/.nix-profile/bin/python3 ~/.local/bin/python
     status:
@@ -345,7 +345,7 @@ tasks:
     deps:
       - nix:shim
     cmds:
-      - cmd: ~/.local/bin/nix profile install nixpkgs#starship
+      - cmd: ~/.local/bin/nix profile add nixpkgs#starship
     status:
       - test -x ~/.nix-profile/bin/starship
 
@@ -353,7 +353,7 @@ tasks:
     deps:
       - nix:shim
     cmds:
-      - cmd: ~/.local/bin/nix profile install nixpkgs#ghq
+      - cmd: ~/.local/bin/nix profile add nixpkgs#ghq
       - cmd: ln -fs ~/.nix-profile/bin/ghq ~/.local/bin/ghq
     status:
       - test -x ~/.nix-profile/bin/ghq
@@ -363,7 +363,7 @@ tasks:
     deps:
       - nix:shim
     cmds:
-      - cmd: ~/.local/bin/nix profile install nixpkgs#git
+      - cmd: ~/.local/bin/nix profile add nixpkgs#git
       - cmd: ln -fs ~/.nix-profile/bin/git ~/.local/bin/git
       - cmd: ln -vfs '{{ .TASKFILE_DIR }}/exe/g' ~/.local/bin/g
     status:
@@ -375,7 +375,7 @@ tasks:
     deps:
       - nix:shim
     cmds:
-      - cmd: ~/.local/bin/nix profile install nixpkgs#tmux
+      - cmd: ~/.local/bin/nix profile add nixpkgs#tmux
       - cmd: ln -fs ~/.nix-profile/bin/tmux ~/.local/bin/tmux
       - cmd: ln -vfs '{{ .TASKFILE_DIR }}/exe/tat' ~/.local/bin/tat
     status:
@@ -387,7 +387,7 @@ tasks:
     deps:
       - nix:shim
     cmds:
-      - cmd: ~/.local/bin/nix profile install nixpkgs#fzf
+      - cmd: ~/.local/bin/nix profile add nixpkgs#fzf
       - cmd: ln -fs ~/.nix-profile/bin/fzf ~/.local/bin/fzf
     status:
       - test -x ~/.nix-profile/bin/fzf
