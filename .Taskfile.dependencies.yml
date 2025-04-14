@@ -3,19 +3,19 @@ version: "3"
 
 tasks:
   nix:
+    run: once
     cmds:
       - cmd: curl -fsSL https://install.determinate.systems/nix | sh -s -- install --determinate
     interactive: true
     preconditions:
       - sh: command -v curl &>/dev/null
         msg: requires `curl` to be installed
-    defer:
-      - task: nix:shim
-        silent: true
     status:
       - test -e /nix
 
   nix:shim:
+    deps:
+      - nix
     cmds:
       - cmd: |
           if [ -x ~/.nix-profile/bin/nix ]; then
