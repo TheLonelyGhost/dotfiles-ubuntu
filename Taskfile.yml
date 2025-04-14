@@ -42,6 +42,11 @@ tasks:
       - task: deps:ghq
       - task: hashi
 
+  fix-git-status:
+    desc: Fixes the `git status` in the dotfiles directory
+    cmds:
+      - cmd: git update-index --assume-unchanged configs/nvim/lazy-lock.json
+
   nerdfonts:hack:
     run: once
     desc: Install Hack (Nerd Font) for nicer characters in shell
