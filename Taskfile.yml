@@ -182,4 +182,13 @@ tasks:
       - task: deps:fzf
       - task: deps:direnv
       - task: config:zsh
-    # TODO: Set shell to be zsh
+      - cmd: |
+          if [ -e ~/.bashrc ]; then
+            if ! grep -qFe '.local/bin' ~/.bashrc &>/dev/null; then
+              printf '\nexport PATH="${HOME}/.local/bin:${PATH}"\n' >> ~/.bashrc
+            fi
+          elif [ -e ~/.bash_profile ]; then
+            if ! grep -qFe '.local/bin' ~/.bash_profile &>/dev/null; then
+              printf '\nexport PATH="${HOME}/.local/bin:${PATH}"\n' >> ~/.bash_profile
+            fi
+          fi
